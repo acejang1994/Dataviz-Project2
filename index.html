@@ -7,17 +7,30 @@
         <link rel="stylesheet" type="text/css" src="style.css">
     </head>
     <body>
+    	<h1>Social Media Visualization</h1>
+    	<h2>James Jang and Filippos Lymperopoulos</h2>
+
+	    <div>
+			<button id="button_facebook">Facebook</button>
+			<button id="button_instagram">Instagram</button>
+			<button id="button_twitter">Twitter</button>
+	    	<button id="button_linkedin">Linkedin</button>
+	    	<button id="button_pinterest">Pinterest</button>
+	    </div>
+		<svg id="viz" height="500" width="800" style="border: 1px solid grey;">
+		</svg>
     	<!-- <div class="bar"></div> -->
+    	<script src="script.js"></script>
         <script type="text/javascript">
             // Your beautiful D3 code will go here
-			d3.select("body").selectAll("div")
-			    .data(dataset)
-			    .enter()
-			    .append("div")
-			    .attr("class", "bar")
-			    .style("height", function(d) {
-				    return d + "px";
-				});
+			// d3.select("body").selectAll("div")
+			//     .data(dataset)
+			//     .enter()
+			//     .append("div")
+			//     .attr("class", "bar")
+			//     .style("height", function(d) {
+			// 	    return d + "px";
+			// 	});
         </script>
     </body>
 </html>

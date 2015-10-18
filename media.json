@@ -1,0 +1,181 @@
+{
+    "Facebook" : {
+        "Gender" :  {
+            "Men": 66,
+            "Women": 77
+        },
+        "Race": {
+            "White": 70,
+            "Black": 67,
+            "Hispanic": 75 
+        },
+        "Age":{
+            "18-29": 82,
+            "30-49": 79, 
+            "50-64": 64, 
+            "65+": 48
+        },
+        "Education": {
+            "Highschool grad or less": 71, 
+            "Some College": 72,
+            "College+": 72
+        },
+        "Income": {
+            "Less than $30,000/yr": 73,
+            "$30,000-$49,999": 72, 
+            "$50,000-$74,999": 66, 
+            "$75,000+": 78
+        },
+        "Living Environment": {
+            "Urban": 74, 
+            "Suburban": 72, 
+            "Rural": 67
+        },
+        "Total": 72
+    },
+    "Pinterest":{
+        "Gender":{
+            "Men":16,
+            "Women":44
+        },
+        "Race":{
+            "White":32,
+            "Black":23,
+            "Hispanic":32
+        },
+        "Age":{
+            "18-29": 37,
+            "30-49": 36,
+            "50-64": 24,
+            "65+": 16
+        },
+        "Education":{
+            "High school grad or less": 25,
+            "Some college": 37,
+            "College+": 31
+        },
+        "Income":{
+            "Less than $30,000/yr": 24,
+            "$30,000-$49,999": 37,
+            "$50,000-$74,999": 41,
+            "$75,000+": 30
+        },
+        "Living Environment":{
+            "Urban": 26,
+            "Suburban": 34,
+            "Rural": 31
+        },
+        "Total":31
+    },
+    "LinkedIn":{
+        "Gender":{
+            "Men":26,
+            "Women":25
+        },
+        "Race":{
+            "White":26,
+            "Black":22,
+            "Hispanic":22
+        },
+        "Age":{
+            "18-29": 22,
+            "30-49": 32,
+            "50-64": 26,
+            "65+": 12
+        },
+        "Education":{
+            "High school grad or less": 9,
+            "Some college": 25,
+            "College+": 46
+        },
+        "Income":{
+            "Less than $30,000/yr": 17,
+            "$30,000-$49,999": 21,
+            "$50,000-$74,999": 32,
+            "$75,000+": 41
+        },
+        "Living Environment":{
+            "Urban": 30,
+            "Suburban": 26,
+            "Rural": 1
+        },
+        "Total":25
+    },
+    "Instagram" : {
+        "Gender" :  {
+            "Men": 24,
+            "Women": 31
+        },
+
+        "Race": {
+            "White": 21,
+            "Black": 47,
+            "Hispanic": 38 
+        },
+
+        "Age":{
+            "18-29": 55,
+            "30-49": 28, 
+            "50-64": 11, 
+            "65+": 4
+        },
+
+        "Education": {
+            "Highschool grad or less": 25, 
+            "Some College": 32,
+            "College+": 26
+        },
+
+        "Income": {
+            "Less than $30,000/yr": 26,
+            "$30,000-$49,999": 27, 
+            "$50,000-$74,999": 30, 
+            "$75,000+": 26
+        },
+        "Living Environment": {
+            "Urban": 32, 
+            "Suburban": 28, 
+            "Rural": 18
+        },
+        "Total": 28
+    },
+
+    "Twitter" : {
+        "Gender" :  {
+            "Men": 25,
+            "Women": 21
+        },
+
+        "Race": {
+            "White": 20,
+            "Black": 28,
+            "Hispanic": 28 
+        },
+
+        "Age":{
+            "18-29": 32,
+            "30-49": 29, 
+            "50-64": 13, 
+            "65+": 6
+        },
+
+        "Education": {
+            "Highschool grad or less": 19, 
+            "Some College": 23,
+            "College+": 27
+        },
+
+        "Income": {
+            "Less than $30,000/yr": 21,
+            "$30,000-$49,999": 19, 
+            "$50,000-$74,999": 30, 
+            "$75,000+": 26
+        },
+        "Living Environment": {
+            "Urban": 32, 
+            "Suburban": 28, 
+            "Rural": 18
+        },
+        "Total": 23
+    }
+}
