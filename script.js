@@ -1,270 +1,421 @@
-data = {
-    "Facebook" : {
-        "Gender" : 
-        { "label": "Men", "count": 66},
-        { "label": "Women", "count": 77}
-        ],
-        "Race": {
-            "White": 70,
-            "Black": 67,
-            "Hispanic": 75 
-        },
-        "Age":{
-            "18-29": 82,
-            "30-49": 79, 
-            "50-64": 64, 
-            "65+": 48
-        },
-        "Education": {
-            "Highschool grad or less": 71, 
-            "Some College": 72,
-            "College+": 72
-        },
-        "Income": {
-            "Less than $30,000/yr": 73,
-            "$30,000-$49,999": 72, 
-            "$50,000-$74,999": 66, 
-            "$75,000+": 78
-        },
-        "Living Environment": {
-            "Urban": 74, 
-            "Suburban": 72, 
-            "Rural": 67
-        },
-        "Total": 72
-    },
-    "Pinterest":{
-        "Gender":{
-            "Men":16,
-            "Women":44
-        },
-        "Race":{
-            "White":32,
-            "Black":23,
-            "Hispanic":32
-        },
-        "Age":{
-            "18-29": 37,
-            "30-49": 36,
-            "50-64": 24,
-            "65+": 16
-        },
-        "Education":{
-            "High school grad or less": 25,
-            "Some college": 37,
-            "College+": 31
-        },
-        "Income":{
-            "Less than $30,000/yr": 24,
-            "$30,000-$49,999": 37,
-            "$50,000-$74,999": 41,
-            "$75,000+": 30
-        },
-        "Living Environment":{
-            "Urban": 26,
-            "Suburban": 34,
-            "Rural": 31
-        },
-        "Total":31
-    },
-    "LinkedIn":{
-        "Gender":{
-            "Men":26,
-            "Women":25
-        },
-        "Race":{
-            "White":26,
-            "Black":22,
-            "Hispanic":22
-        },
-        "Age":{
-            "18-29": 22,
-            "30-49": 32,
-            "50-64": 26,
-            "65+": 12
-        },
-        "Education":{
-            "High school grad or less": 9,
-            "Some college": 25,
-            "College+": 46
-        },
-        "Income":{
-            "Less than $30,000/yr": 17,
-            "$30,000-$49,999": 21,
-            "$50,000-$74,999": 32,
-            "$75,000+": 41
-        },
-        "Living Environment":{
-            "Urban": 30,
-            "Suburban": 26,
-            "Rural": 1
-        },
-        "Total":25
-    },
-    "Instagram" : {
-        "Gender" :  {
-            "Men": 24,
-            "Women": 31
-        },
-
-        "Race": {
-            "White": 21,
-            "Black": 47,
-            "Hispanic": 38 
-        },
-
-        "Age":{
-            "18-29": 55,
-            "30-49": 28, 
-            "50-64": 11, 
-            "65+": 4
-        },
-
-        "Education": {
-            "Highschool grad or less": 25, 
-            "Some College": 32,
-            "College+": 26
-        },
-
-        "Income": {
-            "Less than $30,000/yr": 26,
-            "$30,000-$49,999": 27, 
-            "$50,000-$74,999": 30, 
-            "$75,000+": 26
-        },
-        "Living Environment": {
-            "Urban": 32, 
-            "Suburban": 28, 
-            "Rural": 18
-        },
-        "Total": 28
-    },
-
-    "Twitter" : {
-        "Gender" :  {
-            "Men": 25,
-            "Women": 21
-        },
-
-        "Race": {
-            "White": 20,
-            "Black": 28,
-            "Hispanic": 28 
-        },
-
-        "Age":{
-            "18-29": 32,
-            "30-49": 29, 
-            "50-64": 13, 
-            "65+": 6
-        },
-
-        "Education": {
-            "Highschool grad or less": 19, 
-            "Some College": 23,
-            "College+": 27
-        },
-
-        "Income": {
-            "Less than $30,000/yr": 21,
-            "$30,000-$49,999": 19, 
-            "$50,000-$74,999": 30, 
-            "$75,000+": 26
-        },
-        "Living Environment": {
-            "Urban": 32, 
-            "Suburban": 28, 
-            "Rural": 18
-        },
-        "Total": 23
-    }
-}
-
-      
 window.addEventListener("load",run);
       
 function run (){
-    // button_facebook.addEventListener("click",function() { updateView(category,2013); });
-    initializeView();
+    button_facebook.addEventListener("click",function() { updateViewQ1("Facebook"); });
+    button_instagram.addEventListener("click",function() { updateViewQ1("Instagram"); });
+    button_twitter.addEventListener("click",function() { updateViewQ1("Twitter"); });
+    button_linkedin.addEventListener("click",function() { updateViewQ1("LinkedIn"); });
+    button_pinterest.addEventListener("click",function() { updateViewQ1("Pinterest"); });
+
+    button_gender.addEventListener("click",function() { updateViewQ2("Gender"); });
+    button_race.addEventListener("click",function() { updateViewQ2("Race"); });
+    button_age.addEventListener("click",function() { updateViewQ2("Age"); });
+    button_education.addEventListener("click",function() { updateViewQ2("Education"); });
+    button_income.addEventListener("click",function() { updateViewQ2("Income"); });
+    button_living.addEventListener("click",function() { updateViewQ2("Living Environment"); });
+
+
+    initializeViewQ1();
+    initializeViewQ2();
+
 }
 
-function initializeView() {
-    var dataset = [
-        { "label": "Men", "count": 66},
-        { "label": "nothing", "count": 100-66}
-    ];
+function initializeViewQ1(){
 
-    var height = 360
-    var width = 360
-    var radius = Math.min(width, height) / 2;
-    var donutWidth = 75;
-    var legendRectSize = 18;                                  // NEW
-    var legendSpacing = 4; 
+    var svg = d3.select("#viz1");
+
+    // get the size of the SVG element
+
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+
+    var margin = 100;
+    var chartHeight = height - 2*margin;
+    var chartWidth = width - 2*margin;
+
+    var barmargin = 10;
+    
+    // set a title
+    svg.append("text")
+        .attr("class","title")
+        .attr("x",width/2)
+        .attr("y",margin/2)
+        .attr("dy","0.3em")
+        .style("text-anchor","middle")
+}
 
 
-    var svg = d3.select('#viz')
-      .append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .append('g')
-      .attr('transform', 'translate(' + (width / 2) + 
-        ',' + (height / 2) + ')');
+function updateViewQ1 (social) {
 
-      var color = d3.scale.category20b();
+    var svg = d3.select("#viz1");
 
-    var arc = d3.svg.arc()
-      .innerRadius(radius - donutWidth)             // NEW
-      .outerRadius(radius);
-      
-    var pie = d3.layout.pie()
-      .value(function(d) { return d.count; })
-      .sort(null);
-    var path = svg.selectAll('path')
-      .data(pie(dataset))
-      .enter()
-      .append('path')
-      .attr('d', arc)
-      .attr('fill', function(d, i) { 
-        return color(d.data.label);
-      })
-      .attrTween('d', function(d) {
-       var i = d3.interpolate(d.startAngle+0.1, d.endAngle);
-       return function(t) {
-           d.endAngle = i(t);
-         return arc(d);
-       }
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var legendMargin = 10
+        var margin = 100;
+
+    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+
+    // update title
+    svg.select(".title")
+    .text (social);
+
+    svg.selectAll(".bar").remove();
+    svg.selectAll(".group").remove();
+    svg.selectAll(".value").remove();
+
+    // updateGraphQ1(social, "Gender", 100);
+
+    var categories = ["Gender","Race","Age","Education","Income", "Living Environment"];
+    categories.forEach(function(category,i){
+        var data = getDataRows(social, category)
+        updateGraphQ1(social, category, i*150 + margin)
     });
 
-    var legend = svg.selectAll('.legend')                     // NEW
-        .data(color.domain())                                   // NEW
-        .enter()                                                // NEW
-        .append('g')                                            // NEW
-        .attr('class', 'legend')                                // NEW
-        .attr('transform', function(d, i) {                     // NEW
-        var height = legendRectSize + legendSpacing;          // NEW
-        var offset =  height * color.domain().length / 2;     // NEW
-        var horz = -2 * legendRectSize;                       // NEW
-        var vert = i * height - offset;                       // NEW
-        return 'translate(' + horz + ',' + vert + ')';        // NEW
-    });                                                     // NEW
-    legend.append('rect')                                     // NEW
-        .attr('width', legendRectSize)                          // NEW
-        .attr('height', legendRectSize)                         // NEW
-        .style('fill', color)                                   // NEW
-        .style('stroke', color);                                // NEW
+}   
 
-    legend.append('text')                                     // NEW
-        .attr('x', legendRectSize + legendSpacing)              // NEW
-        .attr('y', legendRectSize - legendSpacing)              // NEW
-        .text(function(d) { return d; });                       // NEW
 
+function updateGraphQ1(social, category, startY) {
+    
+    var svg = d3.select("#viz1");
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var margin = 50;
+    var chartHeight = height - 2*margin;
+    var chartWidth = width - 2*margin;
+    var barmargin = 10;
+    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+
+    var data = getDataRows(social, category)
+    var barHeight = chartHeight/(15*data.length)+2;
+
+    svg.append("text")
+        .attr("class", category)
+        .attr("x",width/2)
+        .attr("y",startY - 20)
+        .attr("dy","0.3em")
+        .style("text-anchor","middle")
+        .text(category)
+
+    var graph = svg.selectAll(".g")
+        .data(data)
+        .enter().append("g");
+
+    graph.append("rect")
+        .attr("class", "bar")
+        .attr("x", margin)
+        .attr("y", function(d,i){
+            return i*barHeight + startY
+        })
+        .attr("width", 0)
+        .attr("height", barHeight)
+        .transition()
+        .duration(2500)
+        .attr("width", function(d){
+            return (chartWidth*d.value/100)
+        })
+        .attr("fill", function(d,i){
+            return color[i];
+        });
+
+
+    graph.append("text")
+        .attr("class","value")
+        .attr("x",margin-10)
+        .attr("y",function(d,i){
+            return i*barHeight + startY+ barHeight/2
+        })
+        .style("opacity", 0)
+        .attr("dy","0.3em")
+        .attr("fill", "black")
+        .style("text-anchor","end")
+        .transition()
+        .style("opacity", 1)
+        .duration(2500)
+        .attr("x",function(d) {
+            return chartWidth*d.value/100 +90;
+        })
+        .text(function(d) {
+            return d.value + "%";
+        });
+
+
+    graph.append("text")
+        .attr("class","group")
+        .attr("x",margin + 5)
+        .attr("y",function(d, i){ return i*barHeight + startY+ barHeight/2})
+        .attr("dy","0.3em")
+        .style("text-anchor","start")
+        .text(function (d) {
+            return d.group;
+        });
 }
 
 
-function handler(company) {
-    console.log(data.company);
-};
 
-console.log(data.Facebook.Gender.Men)
+function initializeViewQ2() {
+
+    var svg = d3.select("#viz2");
+
+    // get the size of the SVG element
+
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+
+    // the chart lives in the svg surrounded by a margin of 100px
+
+    var margin = 100;
+    var chartHeight = height - 2*margin;
+    var chartWidth = width - 2*margin;
+
+    var barmargin = 10;
+    
+    // set a title
+    svg.append("text")
+        .attr("class","title")
+        .attr("x",width/2)
+        .attr("y",margin/2)
+        .attr("dy","0.3em")
+        .style("text-anchor","middle")
+        .text (" Difference"); 
+}
+
+  
+
+function updateViewQ2 (category) {
+
+    var svg = d3.select("#viz2");
+    var width = svg.attr("width");
+    var legendMargin = 10
+
+    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+
+    // update title
+    svg.select(".title")
+    .text (category +" Difference");
+
+    // reset everything
+    svg.selectAll(".bar").remove();
+    svg.selectAll(".group").remove();
+    svg.selectAll(".value").remove();
+
+    var socials = ["Facebook","LinkedIn","Instagram","Pinterest","Twitter"];
+    socials.forEach(function(social,i){
+        updateGraphQ2(social, category, i)
+    });
+
+    var legend = svg.selectAll(".legend")
+      .data(socials)
+      .enter()
+      .append("g")
+      .attr("class", "legend");
+
+    legend.append("rect")
+        .attr("x", width - 110)
+        .attr("y", function(d, i){ return i * 25 + legendMargin;})
+        .attr("width", 20)
+        .attr("height", 20)
+        .style("fill", function(d,i) { 
+            console.log("legend",i)
+            return color[i];
+        });
+    legend.append("text")
+      .attr("x", width-80 )
+      .attr("y", function(d, i){ return i * 25 + legendMargin*1.8;})
+      .attr("dy", ".35em")
+      .style("text-anchor", "start")
+      .text(function(d) { return d; });
+
+}   
+
+function updateGraphQ2(social, category, order) {
+    
+    var svg = d3.select("#viz2");
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var margin = 50;
+    var chartHeight = height - 2*margin;
+    var chartWidth = width - 2*margin;
+    var barmargin = 10;
+    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+
+    var data = getDataRows(social, category)
+    var barWidth = (chartWidth/(5*(data.length)+2));
+    var graph = svg.selectAll(".g")
+        .data(data)
+        .enter().append("g");
+
+    graph.append("rect")
+        .attr("class","bar")
+        .attr("x",function(d,i){
+            return i*6*(barWidth)+order*(barWidth) + margin; })
+        .attr("y", height-margin)
+        .attr("width",barWidth)
+        .attr("height", 0)
+        .transition()
+        .duration(2500)
+        .attr("y",function(d) {
+            return height-margin-(chartHeight*d.value/100); 
+        })
+        .attr("height",function(d) { return chartHeight*d.value/100; })
+        .attr("fill", function(d,i){
+            return color[order];
+        });
+
+    graph.append("text")
+        .attr("class","value")
+        .attr("x",function(d,i) { return i*6*(barWidth)+order*(barWidth) + margin + barWidth/2; })
+        .attr("y",height-margin -10)
+        .style("opacity", 0)
+        .attr("dy","0.3em")
+        .attr("fill", "black")
+        .style("text-anchor","middle")
+        .transition()
+        .style("opacity", 1)
+        .duration(2500)
+        .attr("y",function(d) {
+            return height-margin-(chartHeight*d.value/100) -10;
+        })
+        .text(function(d) {
+            return d.value + "%";
+        });
+
+
+    graph.append("text")
+        .attr("class","group")
+        .attr("x",function(d,i) { return margin+i*6*(barWidth) + barWidth*2.5;})
+        .attr("y",height-margin+20)
+        .attr("dy","0.3em")
+        .style("text-anchor","middle")
+        .text(function (d) {
+            return d.group;
+        });
+}
+
+function getDataRows (social, category) {
+    var data = [
+        { social: "Facebook", category:"Gender", group:"Men", value:66},
+        { social: "Facebook", category:"Gender", group:"Women", value:77},
+            
+        { social: "Facebook", category:"Race", group:"White", value:70},
+        { social: "Facebook", category:"Race", group:"Black", value:67},
+        { social: "Facebook", category:"Race", group:"Hispanic", value:75},
+            
+        { social: "Facebook", category:"Age", group:"18-29", value:82},
+        { social: "Facebook", category:"Age", group:"30-49", value:79},
+        { social: "Facebook", category:"Age", group:"50-64", value:64},
+        { social: "Facebook", category:"Age", group:"65+", value:48},
+            
+        { social: "Facebook", category:"Education", group:"High School", value:71},
+        { social: "Facebook", category:"Education", group:"Some College", value:72},
+        { social: "Facebook", category:"Education", group:"College+", value:72},
+
+        { social: "Facebook", category:"Income", group:"< $30,000/yr", value:73},
+        { social: "Facebook", category:"Income", group:"$30,000-$49,999", value:72},
+        { social: "Facebook", category:"Income", group:"$50,000-$74,999", value:66},
+        { social: "Facebook", category:"Income", group:"$75,000+", value:78},
+
+        { social: "Facebook", category:"Living Environment", group:"Urban", value:74},
+        { social: "Facebook", category:"Living Environment", group:"Suburban", value:72},
+        { social: "Facebook", category:"Living Environment", group:"Rural", value:67},
+
+        { social: "LinkedIn", category:"Gender", group:"Men", value:26},
+        { social: "LinkedIn", category:"Gender", group:"Women", value:25},
+            
+        { social: "LinkedIn", category:"Race", group:"White", value:26},
+        { social: "LinkedIn", category:"Race", group:"Black", value:22},
+        { social: "LinkedIn", category:"Race", group:"Hispanic", value:22},
+            
+        { social: "LinkedIn", category:"Age", group:"18-29", value:22},
+        { social: "LinkedIn", category:"Age", group:"30-49", value:32},
+        { social: "LinkedIn", category:"Age", group:"50-64", value:26},
+        { social: "LinkedIn", category:"Age", group:"65+", value:12},
+            
+        { social: "LinkedIn", category:"Education", group:"High School", value:9},
+        { social: "LinkedIn", category:"Education", group:"Some College", value:25},
+        { social: "LinkedIn", category:"Education", group:"College+", value:46},
+
+        { social: "LinkedIn", category:"Income", group:"< $30,000/yr", value:17},
+        { social: "LinkedIn", category:"Income", group:"$30,000-$49,999", value:21},
+        { social: "LinkedIn", category:"Income", group:"$50,000-$74,999", value:32},
+        { social: "LinkedIn", category:"Income", group:"$75,000+", value:41},
+
+        { social: "LinkedIn", category:"Living Environment", group:"Urban", value:30},
+        { social: "LinkedIn", category:"Living Environment", group:"Suburban", value:26},
+        { social: "LinkedIn", category:"Living Environment", group:"Rural", value:1},    
+
+        { social: "Instagram", category:"Gender", group:"Men", value:24},
+        { social: "Instagram", category:"Gender", group:"Women", value:31},
+            
+        { social: "Instagram", category:"Race", group:"White", value:21},
+        { social: "Instagram", category:"Race", group:"Black", value:47},
+        { social: "Instagram", category:"Race", group:"Hispanic", value:38},
+            
+        { social: "Instagram", category:"Age", group:"18-29", value:55},
+        { social: "Instagram", category:"Age", group:"30-49", value:28},
+        { social: "Instagram", category:"Age", group:"50-64", value:11},
+        { social: "Instagram", category:"Age", group:"65+", value:4},
+            
+        { social: "Instagram", category:"Education", group:"High School", value:25},
+        { social: "Instagram", category:"Education", group:"Some College", value:32},
+        { social: "Instagram", category:"Education", group:"College+", value:26},
+
+        { social: "Instagram", category:"Income", group:"< $30,000/yr", value:26},
+        { social: "Instagram", category:"Income", group:"$30,000-$49,999", value:27},
+        { social: "Instagram", category:"Income", group:"$50,000-$74,999", value:30},
+        { social: "Instagram", category:"Income", group:"$75,000+", value:26},
+
+        { social: "Instagram", category:"Living Environment", group:"Urban", value:32},
+        { social: "Instagram", category:"Living Environment", group:"Suburban", value:28},
+        { social: "Instagram", category:"Living Environment", group:"Rural", value:18},
+
+        {social:"Pinterest", category:"Gender", group:"Men", value:16},
+        {social:"Pinterest", category:"Gender", group:"Women", value:44},
+        {social:"Pinterest", category:"Race", group:"White", value:32},
+        {social:"Pinterest", category:"Race", group:"Black", value:23},
+        {social:"Pinterest", category:"Race", group:"Hispanic", value:32},
+        {social:"Pinterest", category:"Age", group:"18-29", value:37},
+        {social:"Pinterest", category:"Age", group:"30-49", value:36},
+        {social:"Pinterest", category:"Age", group:"50-64", value:24},
+        {social:"Pinterest", category:"Age", group:"65+", value:16},
+        {social:"Pinterest", category:"Education", group:"High School", value:25},
+        {social:"Pinterest", category:"Education", group:"Some College", value:37},
+        {social:"Pinterest", category:"Education", group:"College+", value:31},
+        {social:"Pinterest", category:"Income", group:"< $30,000/yr", value:24},
+        {social:"Pinterest", category:"Income", group:"$30,000-$49,999", value:37},
+        {social:"Pinterest", category:"Income", group:"$50,000-$74,999", value:41},
+        {social:"Pinterest", category:"Income", group:"$75,000+", value:30},
+        {social:"Pinterest", category:"Living Environment", group:"Urban", value:26},
+        {social:"Pinterest", category:"Living Environment", group:"Suburban", value:34},
+        {social:"Pinterest", category:"Living Environment", group:"Rural", value:31},
+        {social:"Pinterest", category:"Total", value:31},
+
+        {social:"Twitter", category:"Gender", group:"Men", value:25},
+        {social:"Twitter", category:"Gender", group:"Women", value:21},
+        {social:"Twitter", category:"Race", group:"White", value:20},
+        {social:"Twitter", category:"Race", group:"Black", value:28},
+        {social:"Twitter", category:"Race", group:"Hispanic", value:28},
+        {social:"Twitter", category:"Age", group:"18-29", value:32},
+        {social:"Twitter", category:"Age", group:"30-49", value:19},
+        {social:"Twitter", category:"Age", group:"50-64", value:13},
+        {social:"Twitter", category:"Age", group:"65+", value:6},
+        {social:"Twitter", category:"Education", group:"High School", value:19},
+        {social:"Twitter", category:"Education", group:"Some College", value:23},
+        {social:"Twitter", category:"Education", group:"College+", value:27},
+        {social:"Twitter", category:"Income", group:"< $30,000/yr", value:21},
+        {social:"Twitter", category:"Income", group:"$30,000-$49,999", value:19},
+        {social:"Twitter", category:"Income", group:"$50,000-$74,999", value:30},
+        {social:"Twitter", category:"Income", group:"$75,000+", value:26},
+        {social:"Twitter", category:"Living Environment", group:"Urban", value:32},
+        {social:"Twitter", category:"Living Environment", group:"Suburban", value:28},
+        {social:"Twitter", category:"Living Environment", group:"Rural", value:18},
+        {social:"Twitter", category:"Total", value:23}
+
+    ];
+    
+    return data.filter(function(row) {
+        return (row.category===category && row.social===social) ; 
+    });
+}
 
 
