@@ -1,12 +1,14 @@
 window.addEventListener("load",run);
       
 function run (){
+    // q1 question event listeners
     button_facebook.addEventListener("click",function() { updateViewQ1("Facebook"); });
     button_instagram.addEventListener("click",function() { updateViewQ1("Instagram"); });
     button_twitter.addEventListener("click",function() { updateViewQ1("Twitter"); });
     button_linkedin.addEventListener("click",function() { updateViewQ1("LinkedIn"); });
     button_pinterest.addEventListener("click",function() { updateViewQ1("Pinterest"); });
 
+    // q2 question event listeners
     button_gender.addEventListener("click",function() { updateViewQ2("Gender"); });
     button_race.addEventListener("click",function() { updateViewQ2("Race"); });
     button_age.addEventListener("click",function() { updateViewQ2("Age"); });
@@ -14,17 +16,14 @@ function run (){
     button_income.addEventListener("click",function() { updateViewQ2("Income"); });
     button_living.addEventListener("click",function() { updateViewQ2("Living Environment"); });
 
-
+    // initialize views
     initializeViewQ1();
     initializeViewQ2();
-
 }
 
 function initializeViewQ1(){
 
     var svg = d3.select("#viz1");
-
-    // get the size of the SVG element
 
     var height = svg.attr("height");
     var width = svg.attr("width");
@@ -107,7 +106,9 @@ function updateGraphQ1(social, category, startY) {
         .attr("y", function(d,i){
             return i*barHeight + startY
         })
-        .attr("width", 0)
+        .attr("width", function(d){
+            return 0;
+        })
         .attr("height", barHeight)
         .transition()
         .duration(2500)
@@ -151,19 +152,14 @@ function updateGraphQ1(social, category, startY) {
         });
 }
 
-
-
 function initializeViewQ2() {
-
     var svg = d3.select("#viz2");
 
     // get the size of the SVG element
-
     var height = svg.attr("height");
     var width = svg.attr("width");
 
     // the chart lives in the svg surrounded by a margin of 100px
-
     var margin = 100;
     var chartHeight = height - 2*margin;
     var chartWidth = width - 2*margin;
@@ -177,7 +173,6 @@ function initializeViewQ2() {
         .attr("y",margin/2)
         .attr("dy","0.3em")
         .style("text-anchor","middle")
-        .text (" Difference"); 
 }
 
   
@@ -188,11 +183,10 @@ function updateViewQ2 (category) {
     var width = svg.attr("width");
     var legendMargin = 10
 
-    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+    var color = ["#3B5998", "#007bb6", "#9b6954", "#cb2027", "#00aced"];
 
     // update title
-    svg.select(".title")
-    .text (category +" Difference");
+    svg.select(".title").text (category +" Distribution of Users Online");
 
     // reset everything
     svg.selectAll(".bar").remove();
@@ -237,7 +231,7 @@ function updateGraphQ2(social, category, order) {
     var chartHeight = height - 2*margin;
     var chartWidth = width - 2*margin;
     var barmargin = 10;
-    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+    var color = ["#3B5998", "#007bb6", "#9b6954", "#cb2027", "#00aced"];
 
     var data = getDataRows(social, category)
     var barWidth = (chartWidth/(5*(data.length)+2));

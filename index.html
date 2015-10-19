@@ -4,44 +4,36 @@
         <meta charset="utf-8">
         <title>D3 Page Template</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
-        <link rel="stylesheet" type="text/css" src="style.css">
-    </head>
+        <link rel="stylesheet" type="text/css" href="style.css"> 
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	</head>
     <body>
-    	<h1>Social Media Visualization</h1>
-    	<h2>James Jang and Filippos Lymperopoulos</h2>
+    	<h1 align="center" class="center-title">Social Media Visualization</h1>
+    	<h4 align="center" class="names-header">James Jang and Filippos Lymperopoulos</h4>
 
-	    <div>
-			<button id="button_facebook">Facebook</button>
-			<button id="button_instagram">Instagram</button>
-			<button id="button_twitter">Twitter</button>
-	    	<button id="button_linkedin">Linkedin</button>
-	    	<button id="button_pinterest">Pinterest</button>
-	    </div>
-		<svg id="viz1" height="800" width="800" style="border: 1px solid grey;">
-		</svg>
+ 		<div class="centered">
+			<button class="btn btn-default" id="button_facebook" type="submit">Facebook</button>
+			<button class="btn btn-default" id="button_instagram" type="submit">Instagram</button>
+			<button class="btn btn-default" id="button_twitter" type="submit">Twitter</button>
+			<button class="btn btn-default" id="button_linkedin" type="submit">Linkedin</button>
+			<button class="btn btn-default" id="button_pinterest" type="submit">Pinterest</button>
+		</div>
 
-		<div>
-			<button id="button_gender">Gender</button>
-			<button id="button_race">Race</button>
-			<button id="button_age">Age</button>
-	    	<button id="button_education">Education</button>
-	    	<button id="button_income">Income</button>
-	    	<button id="button_living">Living Environment</button>
-	    </div>
-		<svg id="viz2" height="500" width="800" style="border: 1px solid grey;">
-		</svg>
+		<svg id="viz1" height="800" width="800" class="centeredSvg"></svg>
+
+ 		<div class="centered">
+			<button class="btn btn-default" id="button_gender" type="submit">Gender</button>
+			<button class="btn btn-default" id="button_race" type="submit">Race</button>
+			<button class="btn btn-default" id="button_age" type="submit">Age</button>
+			<button class="btn btn-default" id="button_education" type="submit">Education</button>
+			<button class="btn btn-default" id="button_income" type="submit">Income</button>
+			<button class="btn btn-default" id="button_living" type="submit">Living Environment</button>
+		</div>
+		
+		<svg id="viz2" height="500" width="800" class="centeredSvg"></svg>
+    	
     	<!-- <div class="bar"></div> -->
     	<script src="script.js"></script>
-        <script type="text/javascript">
-            // Your beautiful D3 code will go here
-			// d3.select("body").selectAll("div")
-			//     .data(dataset)
-			//     .enter()
-			//     .append("div")
-			//     .attr("class", "bar")
-			//     .style("height", function(d) {
-			// 	    return d + "px";
-			// 	});
-        </script>
+        <script type="text/javascript"></script>
     </body>
 </html>
