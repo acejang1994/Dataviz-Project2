@@ -42,41 +42,14 @@ function initializeViewQ1(){
         .attr("y",margin/2)
         .attr("dy","0.3em")
         .style("text-anchor","middle")
-}
-
-
-function updateViewQ1 (social) {
-
-    var svg = d3.select("#viz1");
-
-    var height = svg.attr("height");
-    var width = svg.attr("width");
-    var legendMargin = 10
-        var margin = 100;
-
-    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
-
-    // update title
-    svg.select(".title")
-    .text (social);
-
-    svg.selectAll(".bar").remove();
-    svg.selectAll(".group").remove();
-    svg.selectAll(".value").remove();
-
-    // updateGraphQ1(social, "Gender", 100);
 
     var categories = ["Gender","Race","Age","Education","Income", "Living Environment"];
     categories.forEach(function(category,i){
-        var data = getDataRows(social, category)
-        updateGraphQ1(social, category, i*150 + margin)
+        initialize(category, i*150 + margin)
     });
+}
 
-}   
-
-
-function updateGraphQ1(social, category, startY) {
-    
+function initialize(category, startY){
     var svg = d3.select("#viz1");
     var height = svg.attr("height");
     var width = svg.attr("width");
@@ -86,7 +59,7 @@ function updateGraphQ1(social, category, startY) {
     var barmargin = 10;
     var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
 
-    var data = getDataRows(social, category)
+    var data = getDataRows("Facebook", category)
     var barHeight = chartHeight/(15*data.length)+2;
 
     svg.append("text")
@@ -109,14 +82,6 @@ function updateGraphQ1(social, category, startY) {
         })
         .attr("width", 0)
         .attr("height", barHeight)
-        .transition()
-        .duration(2500)
-        .attr("width", function(d){
-            return (chartWidth*d.value/100)
-        })
-        .attr("fill", function(d,i){
-            return color[i];
-        });
 
 
     graph.append("text")
@@ -129,15 +94,6 @@ function updateGraphQ1(social, category, startY) {
         .attr("dy","0.3em")
         .attr("fill", "black")
         .style("text-anchor","end")
-        .transition()
-        .style("opacity", 1)
-        .duration(2500)
-        .attr("x",function(d) {
-            return chartWidth*d.value/100 +90;
-        })
-        .text(function(d) {
-            return d.value + "%";
-        });
 
 
     graph.append("text")
@@ -148,6 +104,87 @@ function updateGraphQ1(social, category, startY) {
         .style("text-anchor","start")
         .text(function (d) {
             return d.group;
+        });
+}
+
+
+function updateViewQ1 (social) {
+
+    var svg = d3.select("#viz1");
+
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var legendMargin = 10
+        var margin = 100;
+
+    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+
+    // update title
+    svg.select(".title")
+    .text (social);
+
+    // svg.selectAll(".bar").remove();
+    // svg.selectAll(".group").remove();
+    // svg.selectAll(".value").remove();
+
+    // updateGraphQ1(social, "Gender", 100);
+
+    var categories = ["Gender","Race","Age","Education","Income", "Living Environment"];
+    categories.forEach(function(category,i){
+        updateGraphQ1(social, category, i*150 + margin)
+    });
+
+}   
+
+
+function updateGraphQ1(social, category, startY) {
+    
+    var svg = d3.select("#viz1");
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var margin = 50;
+    var chartHeight = height - 2*margin;
+    var chartWidth = width - 2*margin;
+    var barmargin = 10;
+    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
+
+    var data = getDataRows(social, category)
+    // console.log(data)
+    var barHeight = chartHeight/(15*data.length)+2;
+
+    svg.append("text")
+        .attr("class", category)
+        .attr("x",width/2)
+        .attr("y",startY - 20)
+        .attr("dy","0.3em")
+        .style("text-anchor","middle")
+        .text(category)
+
+    var graph = svg.selectAll("g")
+        .data(data);
+    // console.log(graph)
+
+    graph.select(".bar")
+        .transition()
+        .duration(2500)
+        .attr("width", function(d){
+            console.log(d.group);
+            return (chartWidth*d.value/100)
+        })
+        .attr("fill", function(d,i){
+            console.log(i);
+            return color[i];
+        });
+
+    graph.select(".value")
+        .transition()
+        .style("opacity", 1)
+        .duration(2500)
+        .attr("x",function(d) {
+            return chartWidth*d.value/100 +90;
+        })
+        .text(function(d) {
+            return d.value + "%";
         });
 }
 
