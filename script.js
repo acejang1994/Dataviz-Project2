@@ -14,7 +14,6 @@ function run (){
     button_income.addEventListener("click",function() { updateViewQ2("Income"); });
     button_living.addEventListener("click",function() { updateViewQ2("Living Environment"); });
 
-
     initializeViewQ1();
     initializeViewQ2();
 
@@ -50,6 +49,9 @@ function initializeViewQ1(){
 }
 
 function initialize(category, startY){
+    // initalize all of the graphs
+
+
     var svg = d3.select("#viz1");
     var height = svg.attr("height");
     var width = svg.attr("width");
@@ -122,22 +124,19 @@ function updateViewQ1 (social) {
     // update title
     svg.select(".title")
     .text (social);
-
-    // svg.selectAll(".bar").remove();
-    // svg.selectAll(".group").remove();
-    // svg.selectAll(".value").remove();
-
-    // updateGraphQ1(social, "Gender", 100);
-
+    
+    var data = [];
     var categories = ["Gender","Race","Age","Education","Income", "Living Environment"];
     categories.forEach(function(category,i){
-        updateGraphQ1(social, category, i*150 + margin)
+       data.push.apply(data, getDataRows(social, category))
     });
-
+    
+    updateGraphQ1(social, data)
 }   
 
 
-function updateGraphQ1(social, category, startY) {
+function updateGraphQ1(social, data) {
+    // actually animate the bars depending on the social media chosen
     
     var svg = d3.select("#viz1");
     var height = svg.attr("height");
@@ -148,34 +147,34 @@ function updateGraphQ1(social, category, startY) {
     var barmargin = 10;
     var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
 
-    var data = getDataRows(social, category)
-    // console.log(data)
     var barHeight = chartHeight/(15*data.length)+2;
-
-    svg.append("text")
-        .attr("class", category)
-        .attr("x",width/2)
-        .attr("y",startY - 20)
-        .attr("dy","0.3em")
-        .style("text-anchor","middle")
-        .text(category)
 
     var graph = svg.selectAll("g")
         .data(data);
-    // console.log(graph)
 
+    // update the bar
     graph.select(".bar")
         .transition()
         .duration(2500)
         .attr("width", function(d){
-            console.log(d.group);
-            return (chartWidth*d.value/100)
+            return chartWidth*d.value/100;
         })
         .attr("fill", function(d,i){
-            console.log(i);
-            return color[i];
+            switch(social){
+                case "Facebook":
+                    return color[0];
+                case "LinkedIn":
+                    return color[1];
+                case "Pinterest":
+                    return color[2];
+                case "Instagram":
+                    return color[3];
+                case "Twitter":
+                    return color[4];
+            }
         });
 
+    // update the value
     graph.select(".value")
         .transition()
         .style("opacity", 1)
@@ -241,6 +240,7 @@ function updateViewQ2 (category) {
         updateGraphQ2(social, category, i)
     });
 
+    // put in legend
     var legend = svg.selectAll(".legend")
       .data(socials)
       .enter()
@@ -278,10 +278,13 @@ function updateGraphQ2(social, category, order) {
 
     var data = getDataRows(social, category)
     var barWidth = (chartWidth/(5*(data.length)+2));
+
+    // create all of the graph bare bone
     var graph = svg.selectAll(".g")
         .data(data)
         .enter().append("g");
 
+    // set the graphs heights
     graph.append("rect")
         .attr("class","bar")
         .attr("x",function(d,i){
@@ -299,6 +302,7 @@ function updateGraphQ2(social, category, order) {
             return color[order];
         });
 
+    // sets the value
     graph.append("text")
         .attr("class","value")
         .attr("x",function(d,i) { return i*6*(barWidth)+order*(barWidth) + margin + barWidth/2; })
@@ -317,7 +321,7 @@ function updateGraphQ2(social, category, order) {
             return d.value + "%";
         });
 
-
+    // sets the group axis label
     graph.append("text")
         .attr("class","group")
         .attr("x",function(d,i) { return margin+i*6*(barWidth) + barWidth*2.5;})
