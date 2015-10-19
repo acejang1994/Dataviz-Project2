@@ -88,6 +88,8 @@ function updateGraphQ1(social, category, startY) {
     var data = getDataRows(social, category)
     var barHeight = chartHeight/(15*data.length)+2;
 
+    svg.selectAll("."+category).remove();
+
     svg.append("text")
         .attr("class", category)
         .attr("x",width/2)
@@ -274,6 +276,8 @@ function updateGraphQ2(social, category, order) {
             return d.value + "%";
         });
 
+
+        svg.selectAll(".group").remove();
 
     graph.append("text")
         .attr("class","group")
