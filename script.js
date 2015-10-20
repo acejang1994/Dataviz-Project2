@@ -1,5 +1,7 @@
 window.addEventListener("load",run);
       
+var color = ["#3B5998", "#007bb6", "#9b6954", "#cb2027", "#00aced"];
+
 function run (){
     // q1 question event listeners
     button_facebook.addEventListener("click",function() { updateViewQ1("Facebook"); });
@@ -41,41 +43,17 @@ function initializeViewQ1(){
         .attr("y",margin/2)
         .attr("dy","0.3em")
         .style("text-anchor","middle")
-}
-
-
-function updateViewQ1 (social) {
-
-    var svg = d3.select("#viz1");
-
-    var height = svg.attr("height");
-    var width = svg.attr("width");
-    var legendMargin = 10
-        var margin = 100;
-
-    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
-
-    // update title
-    svg.select(".title")
-    .text (social);
-
-    svg.selectAll(".bar").remove();
-    svg.selectAll(".group").remove();
-    svg.selectAll(".value").remove();
-
-    // updateGraphQ1(social, "Gender", 100);
 
     var categories = ["Gender","Race","Age","Education","Income", "Living Environment"];
     categories.forEach(function(category,i){
-        var data = getDataRows(social, category)
-        updateGraphQ1(social, category, i*150 + margin)
+        initialize(category, i*150 + margin)
     });
+}
 
-}   
+function initialize(category, startY){
+    // initalize all of the graphs
 
 
-function updateGraphQ1(social, category, startY) {
-    
     var svg = d3.select("#viz1");
     var height = svg.attr("height");
     var width = svg.attr("width");
@@ -83,18 +61,17 @@ function updateGraphQ1(social, category, startY) {
     var chartHeight = height - 2*margin;
     var chartWidth = width - 2*margin;
     var barmargin = 10;
-    var color = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd"];
-
-    var data = getDataRows(social, category)
+    var data = getDataRows("Facebook", category)
     var barHeight = chartHeight/(15*data.length)+2;
 
     svg.selectAll("."+category).remove();
 
     svg.append("text")
-        .attr("class", category)
+        .attr("class", "category")
         .attr("x",width/2)
         .attr("y",startY - 20)
         .attr("dy","0.3em")
+        .style("opacity", 0)
         .style("text-anchor","middle")
         .text(category)
 
@@ -112,14 +89,6 @@ function updateGraphQ1(social, category, startY) {
             return 0;
         })
         .attr("height", barHeight)
-        .transition()
-        .duration(2500)
-        .attr("width", function(d){
-            return (chartWidth*d.value/100)
-        })
-        .attr("fill", function(d,i){
-            return color[i];
-        });
 
 
     graph.append("text")
@@ -132,15 +101,6 @@ function updateGraphQ1(social, category, startY) {
         .attr("dy","0.3em")
         .attr("fill", "black")
         .style("text-anchor","end")
-        .transition()
-        .style("opacity", 1)
-        .duration(2500)
-        .attr("x",function(d) {
-            return chartWidth*d.value/100 +90;
-        })
-        .text(function(d) {
-            return d.value + "%";
-        });
 
 
     graph.append("text")
@@ -149,8 +109,85 @@ function updateGraphQ1(social, category, startY) {
         .attr("y",function(d, i){ return i*barHeight + startY+ barHeight/2})
         .attr("dy","0.3em")
         .style("text-anchor","start")
+        .attr("fill", "white")
         .text(function (d) {
             return d.group;
+        });
+}
+
+function updateViewQ1 (social) {
+
+    var svg = d3.select("#viz1");
+
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var legendMargin = 10
+        var margin = 100;
+
+    // update title
+    svg.select(".title")
+        .text(social);
+
+    svg.selectAll(".category")
+        .style("opacity", 1)
+    
+    var data = [];
+    var categories = ["Gender","Race","Age","Education","Income", "Living Environment"];
+    categories.forEach(function(category,i){
+       data.push.apply(data, getDataRows(social, category))
+    });
+    
+    updateGraphQ1(social, data)
+}   
+
+
+function updateGraphQ1(social, data) {
+    // actually animate the bars depending on the social media chosen
+    
+    var svg = d3.select("#viz1");
+    var height = svg.attr("height");
+    var width = svg.attr("width");
+    var margin = 50;
+    var chartHeight = height - 2*margin;
+    var chartWidth = width - 2*margin;
+    var barmargin = 10;
+    var barHeight = chartHeight/(15*data.length)+2;
+
+    var graph = svg.selectAll("g")
+        .data(data);
+
+    // update the bar
+    graph.select(".bar")
+        .transition()
+        .duration(2500)
+        .attr("width", function(d){
+            return chartWidth*d.value/100;
+        })
+        .attr("fill", function(d,i){
+            switch(social){
+                case "Facebook":
+                    return color[0];
+                case "LinkedIn":
+                    return color[1];
+                case "Instagram":
+                    return color[2];
+                case "Pinterest":
+                    return color[3];
+                case "Twitter":
+                    return color[4];
+            }
+        });
+
+    // update the value
+    graph.select(".value")
+        .transition()
+        .style("opacity", 1)
+        .duration(2500)
+        .attr("x",function(d) {
+            return chartWidth*d.value/100 +90;
+        })
+        .text(function(d) {
+            return d.value + "%";
         });
 }
 
@@ -185,8 +222,6 @@ function updateViewQ2 (category) {
     var width = svg.attr("width");
     var legendMargin = 10
 
-    var color = ["#3B5998", "#007bb6", "#9b6954", "#cb2027", "#00aced"];
-
     // update title
     svg.select(".title").text (category +" Distribution of Users Online");
 
@@ -200,6 +235,7 @@ function updateViewQ2 (category) {
         updateGraphQ2(social, category, i)
     });
 
+    // put in legend
     var legend = svg.selectAll(".legend")
       .data(socials)
       .enter()
@@ -237,10 +273,13 @@ function updateGraphQ2(social, category, order) {
 
     var data = getDataRows(social, category)
     var barWidth = (chartWidth/(5*(data.length)+2));
+
+    // create all of the graph bare bone
     var graph = svg.selectAll(".g")
         .data(data)
         .enter().append("g");
 
+    // set the graphs heights
     graph.append("rect")
         .attr("class","bar")
         .attr("x",function(d,i){
@@ -258,6 +297,7 @@ function updateGraphQ2(social, category, order) {
             return color[order];
         });
 
+    // sets the value
     graph.append("text")
         .attr("class","value")
         .attr("x",function(d,i) { return i*6*(barWidth)+order*(barWidth) + margin + barWidth/2; })
@@ -276,11 +316,10 @@ function updateGraphQ2(social, category, order) {
             return d.value + "%";
         });
 
-
-        svg.selectAll(".group").remove();
-
+    svg.selectAll(".group").remove();
+    // sets the group axis label
     graph.append("text")
-        .attr("class","group")
+    .attr("class","group")
         .attr("x",function(d,i) { return margin+i*6*(barWidth) + barWidth*2.5;})
         .attr("y",height-margin+20)
         .attr("dy","0.3em")
